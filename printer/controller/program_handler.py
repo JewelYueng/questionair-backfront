@@ -10,7 +10,11 @@ from printer.model.Company import Company
 from printer.model.Painting import Painting
 from printer.model.Product import Product
 from printer.model.Program import Program
-from flask import request, jsonify
+from flask import request, jsonify, render_template
+
+@APP.route('/')
+def index():
+    return render_template('index.html')
 
 @APP.route('/check/company', methods=["GET"])
 def check_company():
