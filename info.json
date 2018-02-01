@@ -1,0 +1,23 @@
+{
+    "clientInfo": {
+        "company": "",
+        "province": "",
+        "city": "",
+        "name": "",
+        "position": "",
+        "mobile": "",
+        "landline": ""
+    },
+    "product": {
+        "style": "",
+        "type": "",
+        "base": ""
+    },
+    "painting": {
+        "amount": "",
+        "effect": "",
+        "luster": "",
+        "program": "",
+        "workpiece": ""
+    }
+}
