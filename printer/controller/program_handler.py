@@ -60,37 +60,51 @@ def add_client():
     product = Product(company_id, productForm['style'], productForm['type'], productForm['base'])
     paint = Painting(company_id, paintingForm['amount'], paintingForm['effect'], paintingForm['luster'], paintingForm['program'], paintingForm['workpiece'])
 
-
-    if paintingForm['program'] == 1:
-        program = Program(company_id, paintingForm['effect'], paintingForm['workpiece'], 0)
-    else:
-        program = Program(company_id, paintingForm['effect'], 0, paintingForm['workpiece'])
-
     DB.session.add(product)
     DB.session.add(paint)
+    DB.session.commit()
+
+    if paintingForm['program'] == 1:
+        program = Program(company_id, product.id, paint.id, paintingForm['effect'], paintingForm['workpiece'], 0)
+    else:
+        program = Program(company_id, product.id, paint.id, paintingForm['effect'], 0, paintingForm['workpiece'])
+
     DB.session.add(program)
     DB.session.commit()
 
     DB.session.commit()
     return jsonify({
+        'pid': program.program_id
+    })
+
+@APP.route('/client', methods=['POST'])
+def get_client():
+    program_id = request.json['pid']
+    program = Program.query.filter_by(program_id = program_id).first()
+
+    product = Product.query.filter_by(id=program.product_id).first()
+    painting = Painting.query.filter_by(id=program.painting_id).first()
+    customer = Company.query.filter_by(id=program.customer_id).first()
+
+    return jsonify({
         'proCode': '%s%d' % (time.strftime('%y%m%d', time.localtime(time.time())), program.program_id),
         'customer': {
-            'company': infoForm['company'],
-            'name': infoForm['name'],
-            'phone': infoForm['mobile']
+            'company': customer.company,
+            'name': customer.name,
+            'phone': customer.mobile
         },
         'product': {
-            'style': productForm['style'],
-            'type': productForm['type'],
-            'base': productForm['base'],
-            'effect': paintingForm['effect'],
-            'program':paintingForm['program'],
-            'workpiece': paintingForm['workpiece'],
-            'luster': paintingForm['luster']
+            'style': product.style,
+            'type': product.type,
+            'base': product.base,
+            'effect': painting.effect,
+            'program':painting.program,
+            'workpiece': painting.workpiece,
+            'luster': painting.luster
         },
         'program': {
-            'painting': paintingForm['effect'],
-            'method': '%d, %d' % (program.dry_program == 0, paintingForm['workpiece'])
+            'painting': painting.effect,
+            'method': '%d, %d' % (program.dry_program == 0, painting.workpiece)
         }
     })
 
