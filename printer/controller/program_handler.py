@@ -49,13 +49,11 @@ def add_client():
     productForm = request.json['product']
     paintingForm = request.json['painting']
 
-    company = Company.query.filter_by(company=infoForm['company']).first()
-    if company is None:
-        newCom = Company(infoForm['company'], infoForm['province'], infoForm['city'], infoForm['name'], infoForm['position'], infoForm['mobile'], infoForm['landline'])
-        DB.session.add(newCom)
-        DB.session.commit()
-        company = Company.query.filter_by(company=infoForm['company']).first()
-    company_id = company.id
+    newCom = Company(infoForm['company'], infoForm['province'], infoForm['city'], infoForm['name'], infoForm['position'], infoForm['mobile'], infoForm['landline'])
+    DB.session.add(newCom)
+    DB.session.commit()
+
+    company_id = newCom.id
 
     product = Product(company_id, productForm['style'], productForm['type'], productForm['base'])
     paint = Painting(company_id, paintingForm['amount'], paintingForm['effect'], paintingForm['luster'], paintingForm['program'], paintingForm['workpiece'])
