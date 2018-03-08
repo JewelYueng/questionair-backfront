@@ -11,7 +11,7 @@ class Company(DB.Model):
     """企业信息的model"""
     __tablename__ = 'company'
     id = DB.Column(DB.Integer, primary_key=True)
-    company = DB.Column(DB.String(255), unique=True)
+    company = DB.Column(DB.String(255))
     province = DB.Column(DB.String(255))
     city = DB.Column(DB.String(255))
     name = DB.Column(DB.String(255))
