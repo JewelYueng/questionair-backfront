@@ -17,12 +17,14 @@ class Painting(DB.Model):
     luster = DB.Column(DB.String(9))
     program = DB.Column(DB.Integer)
     workpiece = DB.Column(DB.Integer)
+    lusterStr = DB.Column(DB.String(255))
 
-    def __init__(self, customer_id, amount, effect, luster, program, workpiece):
+    def __init__(self, customer_id, amount, effect, luster, luster_str,program, workpiece):
         self.customer_id = customer_id
         self.amount = amount
         self.effect = effect
         self.luster = luster
+        self.lusterStr = luster_str
         self.program = program
         self.workpiece = workpiece
 

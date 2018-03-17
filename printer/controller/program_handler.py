@@ -56,7 +56,7 @@ def add_client():
     company_id = newCom.id
 
     product = Product(company_id, productForm['style'], productForm['type'], productForm['base'])
-    paint = Painting(company_id, paintingForm['amount'], paintingForm['effect'], paintingForm['luster'], paintingForm['program'], paintingForm['workpiece'])
+    paint = Painting(company_id, paintingForm['amount'], paintingForm['effect'], paintingForm['luster'], paintingForm['lusterStr'], paintingForm['program'], paintingForm['workpiece'])
 
     DB.session.add(product)
     DB.session.add(paint)
@@ -78,8 +78,8 @@ def add_client():
 @APP.route('/client', methods=['POST'])
 def get_client():
     program_id = request.json['pid']
-    program = Program.query.filter_by(program_id = program_id).first()
 
+    program = Program.query.filter_by(program_id = program_id).first()
     product = Product.query.filter_by(id=program.product_id).first()
     painting = Painting.query.filter_by(id=program.painting_id).first()
     customer = Company.query.filter_by(id=program.customer_id).first()
